@@ -1,0 +1,74 @@
+.editing_products {
+  max-width: 390px;
+  padding-left: 5px;
+  padding-right: 5px;
+  h2 {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    height: 56px;
+  }
+
+  .editing_products_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .editing_products_header_button {
+      padding-right: 0px;
+    }
+  }
+
+  .main_product_info {
+    margin-bottom: 15px;
+
+    text-align: left;
+
+    .main_product_info_photo_wrap {
+      max-width: 90px;
+      min-height: 90px;
+      padding-left: 25px;
+      padding-top: 20px;
+      border-radius: 50%;
+    }
+
+    .input_file {
+      position: relative;
+      display: inline-block;
+    }
+    .input_file span {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      outline: none;
+      text-decoration: none;
+      font-size: 14px;
+      vertical-align: middle;
+      color: #6200ee;
+      text-align: center;
+      font-size: 16px;
+      border-radius: 4px;
+      background-color: white;
+      line-height: 22px;
+      height: 40px;
+      padding: 10px 20px;
+      box-sizing: border-box;
+    }
+    .input_file input[type="file"] {
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+      display: block;
+      width: 0;
+      height: 0;
+    }
+  }
+  .descr {
+    text-align: left;
+    margin-bottom: 10px;
+
+    .descrInput {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.actionButtonWrapper {
+  &:global(.MuiDialogActions-root) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.contentWrapper {
+  &:global(.MuiDialogContent-root) {
+    padding: 15px !important;
+  }
+}
