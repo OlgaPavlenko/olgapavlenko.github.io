@@ -1,19 +1,36 @@
-import { Avatar, IconButton } from "@mui/material";
-import { FunctionComponent, useEffect, useState } from "react";
-import styles from "./EditMenus.module.scss";
+import { Avatar, IconButton, Paper } from "@mui/material";
+import {
+  ChangeEvent,
+  FunctionComponent,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
+import HTTPService, { baseUrl } from "../../../services/httpService";
+import { IMeal, IProduct } from "../../../interfaces";
+
+import { Button } from "@mui/joy";
 import CloseIcon from "@mui/icons-material/Close";
-import noImage from "../../../assets/svg/image-file.svg";
-import Input from "@mui/joy/Input";
 import { DropDownList } from "../../../components/DropDownList";
-import HTTPService from "../../../services/httpService";
 import { ENDPOINTS } from "../../../utils/constants";
-import { IMeal } from "../../../interfaces";
+import Input from "@mui/joy/Input";
+import noImage from "../../../assets/svg/image-file.svg";
+import styles from "./EditMenus.module.scss";
 
 export const EditMenus: FunctionComponent = () => {
   const [allergens, setAllergens] = useState<IMeal[]>([]);
   const [ingredients, setIngredients] = useState<IMeal[]>([]);
-  const [imgUrl, setImgUrl] = useState("");
-  const [inputDescrValue, setInputDescrValue] = useState();
+
+  const [product, setProduct] = useState<IProduct>({
+    id: 0,
+    name: "",
+    img: "",
+    description: "",
+    ingredients: [],
+    allergens: [],
+    weight: "",
+    price: 0,
+  });
 
   const getAllAllergens = async () => {
     const { data } = await HTTPService.get(ENDPOINTS.ALLERGENS);
@@ -25,16 +42,20 @@ export const EditMenus: FunctionComponent = () => {
   };
 
   const getSelectedlAllergens = (items: string[]) => {
-    console.log("edit", items);
+    setProduct({ ...product, allergens: items });
   };
   const getSelectedIngredients = (items: string[]) => {
-    console.log("edit", items);
+    setProduct({ ...product, ingredients: items });
   };
 
   useEffect(() => {
     getAllAllergens();
     getAllIngredients();
   }, []);
+
+  const createProduct = async (product: IProduct) => {
+    await HTTPService.post(ENDPOINTS.PRODUCTS, product);
+  };
 
   const getBase64 = (file: any) => {
     return new Promise((resolve) => {
@@ -54,13 +75,34 @@ export const EditMenus: FunctionComponent = () => {
 
     getBase64(file)
       .then((result) => {
-        setImgUrl(result as string);
+        setProduct({ ...product, img: result as string });
       })
       .catch((err) => {
         console.log(err);
       });
 
-    setImgUrl(e.target.files[0]);
+    setProduct({ ...product, img: e.target.files[0] });
+  };
+
+  const addNewProduct = (e: SyntheticEvent) => {
+    e.preventDefault();
+    const newProduct = {
+      ...product,
+      id: Date.now(),
+    };
+    createProduct(newProduct);
+  };
+  const nameInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setProduct({ ...product, name: e.target.value });
+  };
+  const weightInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setProduct({ ...product, weight: e.target.value });
+  };
+  const priceInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setProduct({ ...product, price: Number(e.target.value) });
+  };
+  const descriptionInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setProduct({ ...product, description: e.target.value });
   };
 
   return (
@@ -80,7 +122,7 @@ export const EditMenus: FunctionComponent = () => {
           <div className={styles.main_product_info_photo_wrap}>
             <Avatar
               alt="product"
-              src={imgUrl || noImage}
+              src={product.img || noImage}
               className={styles.main_product_info_photo_avatar}
             />
           </div>
@@ -90,16 +132,26 @@ export const EditMenus: FunctionComponent = () => {
             <span>CHANGE</span>
           </label>
         </div>
-        <div className={styles.descr}>
-          <p>Description</p>
+        <label className={styles.descr}>
+          <span className={styles.descrLabel}>Name</span>
+          <Input
+            placeholder="Type name in here…"
+            className={styles.descrInput}
+            size="lg"
+            value={product.name}
+            onChange={nameInputChange}
+          />
+        </label>
+        <label className={styles.descr}>
+          <span className={styles.descrLabel}>Description</span>
           <Input
             placeholder="Type in here…"
             className={styles.descrInput}
             size="lg"
-            value={inputDescrValue}
-            onClick={() => {}}
+            value={product.description}
+            onChange={descriptionInputChange}
           />
-        </div>
+        </label>
         <div className={styles.descr}>
           <DropDownList
             items={allergens}
@@ -114,10 +166,36 @@ export const EditMenus: FunctionComponent = () => {
             label="Ingredients"
           />
         </div>
-        {/* <div className={styles.descr}>
-          <p>Ingredients</p>
-          <DropDownList items={"INGREDIENTS"} />
-        </div> */}
+        <label className={styles.descr}>
+          <span className={styles.descrLabel}>Weight</span>
+          <Input
+            size="lg"
+            placeholder="0g"
+            value={product.weight}
+            onChange={weightInputChange}
+          />
+        </label>
+        <label className={styles.descr}>
+          <span className={styles.descrLabel}>Price</span>
+          <Input
+            size="lg"
+            placeholder="0uah"
+            value={product.price}
+            onChange={priceInputChange}
+          />
+        </label>
+        <div className={styles.buttonSpace}>
+          <Button className={styles.button} onClick={addNewProduct}>
+            SAVE
+          </Button>
+          <Button
+            variant="outlined"
+            className={styles.buttonDel}
+            onClick={function () {}}
+          >
+            DELETE PRODUCT
+          </Button>
+        </div>
       </form>
     </div>
   );

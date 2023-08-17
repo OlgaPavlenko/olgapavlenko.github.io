@@ -1,0 +1,32 @@
+.wrap {
+  padding: 10px 10px;
+
+  .bodyWrap {
+    padding-left: 5px;
+    padding-right: 5px;
+    .body {
+      text-align: left;
+
+      & h1 {
+        font-weight: bold;
+      }
+    }
+    .numericWrap {
+      display: flex;
+      justify-content: space-between;
+      .numeric {
+        font-size: 16px;
+      }
+    }
+    .btnsWrap {
+      display: flex;
+      justify-content: space-between;
+    }
+    .editBtn {
+      color: #6200ee;
+    }
+    .delBtn {
+      color: red;
+    }
+  }
+}

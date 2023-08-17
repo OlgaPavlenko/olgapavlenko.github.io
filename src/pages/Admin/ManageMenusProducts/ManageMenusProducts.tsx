@@ -1,8 +1,13 @@
-import { Box, Tabs, Tab } from "@mui/material";
-import { FunctionComponent, SyntheticEvent, useState } from "react";
+import { Box, Tab, Tabs } from "@mui/material";
+import { FunctionComponent, SyntheticEvent, useEffect, useState } from "react";
+
 import { CircleIcon } from "../../../components/CircleIcon";
+import { ENDPOINTS } from "../../../utils/constants";
+import HTTPService from "../../../services/httpService";
+import { IProduct } from "../../../interfaces";
+import { ProductCard } from "../../../components/ProductCard";
 import { TabPanel } from "../../../components/TabPanel/TabPanel";
-import { MealList } from "../ProductComposition/MealList";
+import styles from "./ManageMenusProducts.module.scss";
 
 const a11yProps = (index: number) => {
   return {
@@ -13,9 +18,19 @@ const a11yProps = (index: number) => {
 
 export const ManageMenusProducts: FunctionComponent = () => {
   const [tabIndex, setTabIndex] = useState(0);
+  const [productItems, setProductItems] = useState<IProduct[]>([]);
+
+  useEffect(() => {
+    getItem();
+  }, []);
 
   const handleTabChange = (event: SyntheticEvent, tabIndex: number) => {
     setTabIndex(tabIndex);
+  };
+
+  const getItem = async () => {
+    const { data: items } = await HTTPService.get(ENDPOINTS.PRODUCTS);
+    setProductItems(items);
   };
 
   const renderAddButton = () => {
@@ -46,7 +61,9 @@ export const ManageMenusProducts: FunctionComponent = () => {
           Menu
         </TabPanel>
         <TabPanel value={tabIndex} index={1}>
-          Product
+          <div className={styles.productCards}>
+            <ProductCard items={productItems} />
+          </div>
         </TabPanel>
       </Box>
     );
@@ -54,6 +71,7 @@ export const ManageMenusProducts: FunctionComponent = () => {
   return (
     <>
       {renderTabs()}
+
       {renderAddButton()}
     </>
   );

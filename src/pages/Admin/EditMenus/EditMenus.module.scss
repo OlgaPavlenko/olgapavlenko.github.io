@@ -65,10 +65,32 @@
   }
   .descr {
     text-align: left;
-    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
 
-    .descrInput {
-      width: 100%;
+    .descrLabel {
+      margin-bottom: 10px;
+      display: inline-block;
     }
+  }
+
+  .buttonSpace {
+    margin-top: 25px;
+    border-top: 1px solid rgb(240, 237, 237);
+  }
+
+  .button {
+    margin-bottom: 20px;
+    margin-top: 15px;
+    width: 100%;
+    border-color: aliceblue;
+    background-color: rgb(14, 13, 13);
+  }
+
+  .buttonDel {
+    width: 100%;
+    border-color: aliceblue;
+    color: red;
   }
 }

@@ -1,13 +1,13 @@
 import { Admin } from "../pages/Admin/Admin";
-import { EditMenus } from "../pages/Admin/EditMenus";
-import { ManageMenusProducts } from "../pages/Admin/ManageMenusProducts";
 import { AdminOrder } from "../pages/Admin/Order";
-import { ProductComposition } from "../pages/Admin/ProductComposition";
 import { Cart } from "../pages/Cart/Cart";
 import { ClientAccount } from "../pages/ClientAccount/ClientAccount";
+import { EditMenus } from "../pages/Admin/EditMenus";
 import { Login } from "../pages/Login/Login";
+import { ManageMenusProducts } from "../pages/Admin/ManageMenusProducts";
 import { Order } from "../pages/Order/Order";
 import { ProductCard } from "../pages/ProductCard/ProductCard";
+import { ProductComposition } from "../pages/Admin/ProductComposition";
 import { ProductList } from "../pages/ProductList/ProductList";
 import { SignUp } from "../pages/SignUp/SignUp";
 
@@ -85,4 +85,5 @@ export const ADMIN_PATHES = [
 export const ENDPOINTS = {
   ALLERGENS: "allergens",
   INGREDIENTS: "ingredients",
+  PRODUCTS: "products",
 };
